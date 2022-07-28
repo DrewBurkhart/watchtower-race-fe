@@ -5,7 +5,11 @@ use yew::{classes, function_component, html, use_effect_with_deps, use_reducer, 
 mod components;
 mod state;
 
-use components::{footer::Footer, header::Header, update::Update as UpdateItem};
+use components::{
+    // footer::Footer,
+    header::Header,
+    update::Update as UpdateItem,
+};
 
 const KEY: &str = "1password.watchtowerrace.self";
 
@@ -49,11 +53,31 @@ fn app() -> Html {
         ""
     };
 
+    let current_score = if !state.updates.is_empty() {
+        state.updates.last().unwrap().score.parse::<u16>().unwrap()
+    } else {
+        0
+    };
+
+    let remark = match current_score {
+        1000.. => "Ok fine you get a prize.",
+        750...999 => "Security is a lifestyle. You gotta want it!",
+        500...749 => "It's the thought that counts?",
+        250...499 => "Mom, is that you?",
+        _ => "Ugh",
+    };
+
+    // let cumulative_score: u16 = state
+    //     .updates
+    //     .iter()
+    //     .map(|update| update.score.clone().parse::<u16>().unwrap())
+    //     .sum();
+
     html! {
         <div class="race-wrapper">
             <section class="raceapp">
                 <header class="header">
-                    <h1>{ "scores" }</h1>
+                    <h1>{ "Watchtower Race" }</h1>
                     <Header {onadd} user_id=1 />
                 </header>
                 <section class={classes!("main", hidden_class)}>
@@ -66,6 +90,17 @@ fn app() -> Html {
                         }) }
                     </ul>
                 </section>
+                <section>
+                        <strong>
+                            {
+                                format!(
+                                    "Current Score: {:?} - {}",
+                                    if !state.updates.is_empty() { current_score } else { 0 },
+                                    remark
+                                )
+                            }
+                        </strong>
+                </section>
                 <footer class={classes!("footer", hidden_class)}>
                     <span class="score-count">
                         <strong>{ state.updates.len() }</strong>
@@ -73,7 +108,7 @@ fn app() -> Html {
                     </span>
                 </footer>
             </section>
-            <Footer />
+            // <Footer />
         </div>
     }
 }
