@@ -13,7 +13,7 @@ pub struct State {
 pub struct User {
     pub id: usize,
     pub name: String,
-    pub score: u8,
+    pub score: u16,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]

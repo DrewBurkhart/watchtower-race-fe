@@ -5,11 +5,7 @@ use yew::{classes, function_component, html, use_effect_with_deps, use_reducer, 
 mod components;
 mod state;
 
-use components::{
-    // footer::Footer,
-    header::Header,
-    update::Update as UpdateItem,
-};
+use components::{footer::Footer, header::Header, lane::Lane, update::Update as UpdateItem};
 
 const KEY: &str = "1password.watchtowerrace.self";
 
@@ -101,6 +97,7 @@ fn app() -> Html {
                             }
                         </strong>
                 </section>
+                <Lane name="Andrew" score=8 position=1 />
                 <footer class={classes!("footer", hidden_class)}>
                     <span class="score-count">
                         <strong>{ state.updates.len() }</strong>
@@ -108,7 +105,7 @@ fn app() -> Html {
                     </span>
                 </footer>
             </section>
-            // <Footer />
+            <Footer />
         </div>
     }
 }
